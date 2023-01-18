@@ -8,10 +8,13 @@ declare namespace Config {
     port: number;
     username: string;
     password: string;
-  }
+    database: string;
+    entities: string[];
+  };
 
   type Redis = {
     host: string;
     port: number;
-  }
+    db: number;
+  };
 }

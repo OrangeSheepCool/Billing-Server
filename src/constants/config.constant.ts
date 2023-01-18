@@ -1,22 +1,25 @@
 export const ENV_CONFIG = {
-  FILE_PATH: '.development.env',
+  dev_path: '.development.env',
 };
 
 export const APP_CONFIG = {
-  TOEKN: 'app',
-  PORT: 3000,
+  token: 'app',
+  port: 3000,
 };
 
 export const MYSQL_CONFIG = {
-  TOKEN: 'mysql',
-  HOST: 'localhost',
-  PORT: 3306,
-  USERNAME: 'root',
-  PASSWORD: '123456',
+  token: 'mysql',
+  host: 'localhost',
+  port: 3306,
+  username: 'root',
+  password: 'Y3lzMTU4MzM0MTYyNQ==',
+  database: 'billing',
+  entities: ['dist/entities/**/*.entity.{js,ts}'],
 };
 
 export const REDIS_CONFIG = {
-  TOKEN: 'redis',
-  HOST: 'localhost',
-  PORT: 6379,
+  token: 'redis',
+  host: 'localhost',
+  port: 6379,
+  db: 10,
 };

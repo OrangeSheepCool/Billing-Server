@@ -2,17 +2,17 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from '@/app.module';
-import { ConfConstant } from '@/constants';
+import { ConfigConstant } from '@/constants';
 
-const { APP_CONFIG } = ConfConstant;
+const {
+  APP_CONFIG: { token, ...options },
+} = ConfigConstant;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
 
-  const configServ = app.get(ConfigService);
-  const { port } = configServ.get<Config.App>(APP_CONFIG.TOEKN) || {
-    port: APP_CONFIG.PORT,
-  };
+  const configService = app.get(ConfigService);
+  const { port } = configService.get<Config.App>(token) || options;
 
   await app.listen(port);
 }

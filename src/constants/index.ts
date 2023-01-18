@@ -1,1 +1,1 @@
-export * as ConfConstant from './config.constant';
+export * as ConfigConstant from './config.constant';

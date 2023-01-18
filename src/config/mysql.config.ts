@@ -1,12 +1,17 @@
 import { registerAs } from '@nestjs/config';
+import { Base64 } from 'js-base64';
 
-import { ConfConstant } from '@/constants';
+import { ConfigConstant } from '@/constants';
 
-const { MYSQL_CONFIG } = ConfConstant;
+const {
+  MYSQL_CONFIG: { token, host, port, username, password, database, entities },
+} = ConfigConstant;
 
-export default registerAs<Config.Mysql>(MYSQL_CONFIG.TOKEN, () => ({
-  host: process.env.MYSQL_HOST || MYSQL_CONFIG.HOST,
-  port: Number(process.env.MYSQL_PORT) || MYSQL_CONFIG.PORT,
-  username: process.env.MYSQL_USERNAME || MYSQL_CONFIG.USERNAME,
-  password: process.env.MYSQL_PASSWORD || MYSQL_CONFIG.PASSWORD,
+export default registerAs<Config.Mysql>(token, () => ({
+  host: process.env.MYSQL_HOST || host,
+  port: Number(process.env.MYSQL_PORT) || port,
+  username: process.env.MYSQL_USERNAME || username,
+  password: Base64.decode(process.env.MYSQL_PASSWORD || password),
+  database: process.env.MYSQL_DATABASE || database,
+  entities,
 }));
