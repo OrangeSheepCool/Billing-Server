@@ -29,7 +29,11 @@ export class RedisService {
     }
   }
 
-  async setCache(key: string, val: any, seconds?: number): Promise<'OK'> {
+  async setCache(
+    key: string,
+    val: string | number | Record<string, unknown>,
+    seconds?: number,
+  ): Promise<'OK' | 'Not OK'> {
     try {
       if (typeof val === 'object') {
         val = JSON.stringify(val);
@@ -40,7 +44,16 @@ export class RedisService {
       return await this.redis.set(key, val);
     } catch (error) {
       // console.log(error);
-      return 'OK';
+      return 'Not OK';
+    }
+  }
+
+  async delCache(...keys: string[]): Promise<number> {
+    try {
+      return await this.redis.del(keys);
+    } catch (error) {
+      // console.log(error);
+      return 0;
     }
   }
 }
