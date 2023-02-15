@@ -5,16 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from '@/app.controller';
 import { AppService } from '@/app.service';
 import { Appconfig, Mysqlconfig, Redisconfig } from '@/config';
-import { ConfigConstant } from '@/constants';
+import { ENV_CONFIG, MYSQL_CONFIG } from '@/constants';
 
-const {
-  MYSQL_CONFIG: { token, ...options },
-} = ConfigConstant;
+const { token, ...options } = MYSQL_CONFIG;
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ConfigConstant.ENV_CONFIG.dev_path,
+      envFilePath: ENV_CONFIG.dev_path,
       isGlobal: true,
       load: [Appconfig, Mysqlconfig, Redisconfig],
     }),

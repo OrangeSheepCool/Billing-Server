@@ -1,10 +1,8 @@
 import { registerAs } from '@nestjs/config';
 
-import { ConfigConstant } from '@/constants';
+import { APP_CONFIG } from '@/constants';
 
-const {
-  APP_CONFIG: { token, port },
-} = ConfigConstant;
+const { token, port } = APP_CONFIG;
 
 export default registerAs<Config.App>(token, () => ({
   port: Number(process.env.PORT) || port,

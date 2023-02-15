@@ -2,11 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Redis } from 'ioredis';
 
-import { ConfigConstant } from '@/constants';
+import { REDIS_CONFIG } from '@/constants';
 
-const {
-  REDIS_CONFIG: { token, ...options },
-} = ConfigConstant;
+const { token, ...options } = REDIS_CONFIG;
 
 @Injectable()
 export class RedisService {

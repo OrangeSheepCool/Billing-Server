@@ -1,10 +1,8 @@
 import { registerAs } from '@nestjs/config';
 
-import { ConfigConstant } from '@/constants';
+import { REDIS_CONFIG } from '@/constants';
 
-const {
-  REDIS_CONFIG: { token, host, port, db },
-} = ConfigConstant;
+const { token, host, port, db } = REDIS_CONFIG;
 
 export default registerAs<Config.Redis>(token, () => ({
   host: process.env.REDIS_HOST || host,

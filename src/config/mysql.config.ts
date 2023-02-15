@@ -1,11 +1,10 @@
 import { registerAs } from '@nestjs/config';
 import { decode } from 'js-base64';
 
-import { ConfigConstant } from '@/constants';
+import { MYSQL_CONFIG } from '@/constants';
 
-const {
-  MYSQL_CONFIG: { token, host, port, username, password, database, entities },
-} = ConfigConstant;
+const { token, host, port, username, password, database, entities } =
+  MYSQL_CONFIG;
 
 export default registerAs<Config.Mysql>(token, () => ({
   host: process.env.MYSQL_HOST || host,

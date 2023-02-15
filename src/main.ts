@@ -2,11 +2,9 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from '@/app.module';
-import { ConfigConstant } from '@/constants';
+import { APP_CONFIG } from '@/constants';
 
-const {
-  APP_CONFIG: { token, ...options },
-} = ConfigConstant;
+const { token, ...options } = APP_CONFIG;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
