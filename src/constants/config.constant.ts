@@ -5,6 +5,7 @@ export const ENV_CONFIG = {
 export const APP_CONFIG = {
   token: 'app',
   port: 3000,
+  prefix: '/api/v1'
 };
 
 export const MYSQL_CONFIG = {

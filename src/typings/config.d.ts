@@ -1,6 +1,7 @@
 declare namespace Config {
   type App = {
     port: number;
+    prefix: string;
   };
 
   type Mysql = {

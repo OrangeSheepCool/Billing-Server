@@ -6,6 +6,7 @@ import { AppController } from '@/app.controller';
 import { AppService } from '@/app.service';
 import { Appconfig, Mysqlconfig, Redisconfig } from '@/config';
 import { ENV_CONFIG, MYSQL_CONFIG } from '@/constants';
+import { AuthModule, UserModule } from '@/modules';
 
 const { token, ...options } = MYSQL_CONFIG;
 
@@ -24,6 +25,8 @@ const { token, ...options } = MYSQL_CONFIG;
         ...(configService.get<Config.Mysql>(token) || options),
       }),
     }),
+    AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
