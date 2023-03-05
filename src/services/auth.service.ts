@@ -75,7 +75,10 @@ export class AuthService {
       this.checkOne(createAuthDto),
     ]);
 
-    const user: User = await this.userService.saveOne(createUserDto);
+    const user: User = await this.userService.saveOne({
+      username: createUserDto.username || createAuthDto.identity,
+      avatar: createUserDto.avatar,
+    });
     await this.saveOne(createAuthDto, user);
 
     return 'ok';
