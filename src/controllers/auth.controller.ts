@@ -12,7 +12,7 @@ export class AuthController {
 
   @UseGuards(LocalGuard)
   @Post('signin')
-  signIn(@ReqUser() user: User) {
+  signIn(@ReqUser() user: User): SignInResponse {
     return this.authService.signIn(user);
   }
 
@@ -20,7 +20,7 @@ export class AuthController {
   async signUp(
     @Body()
     body: CreateAuthDto & CreateUserDto,
-  ) {
+  ): Promise<SignUpResponse> {
     return await this.authService.signUp(body);
   }
 }

@@ -3,14 +3,16 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { encode } from 'js-base64';
 import { omit, pick } from 'lodash';
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 
-import { EXCEPTION_MSG } from '@/constants';
+import { EXCEPTION_MSG, RESPONSE_MSG } from '@/constants';
 import { CreateAuthDto, CreateUserDto, UpdateAuthDto } from '@/dto';
 import { Auth, User } from '@/entities';
 import { AuthIdentifier } from '@/enums';
 import { determineIdentityEnum, determineIdentityName } from '@/utils';
 import { UserService } from './user.service';
+
+const { SIGN_IN_SUCCESS, SIGN_UP_SUCCESS } = RESPONSE_MSG;
 
 @Injectable()
 export class AuthService {
@@ -57,15 +59,20 @@ export class AuthService {
     return await this.authRepository.save(auth);
   }
 
-  signIn(user: User) {
+  signIn(user: User): SignInResponse {
     const { id } = user;
 
     return {
-      access_token: encode(this.jwtService.sign({ id })),
+      data: {
+        access_token: encode(this.jwtService.sign({ id })),
+      },
+      message: SIGN_IN_SUCCESS,
     };
   }
 
-  async signUp(payload: CreateAuthDto & CreateUserDto) {
+  async signUp(
+    payload: CreateAuthDto & CreateUserDto,
+  ): Promise<SignUpResponse> {
     const authFields = ['identity', 'credential'] as const;
     const createUserDto = omit(payload, authFields);
     const createAuthDto = pick(payload, authFields);
@@ -81,6 +88,8 @@ export class AuthService {
     });
     await this.saveOne(createAuthDto, user);
 
-    return 'ok';
+    return {
+      message: SIGN_UP_SUCCESS,
+    };
   }
 }

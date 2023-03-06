@@ -4,7 +4,6 @@ import { ReqUser } from '@/decorators';
 import { UpdateUserDto } from '@/dto';
 import { JwtGuard } from '@/guards';
 import { UserService } from '@/services';
-import { UpdateResult } from 'typeorm';
 
 @Controller('users')
 export class UserController {
@@ -15,7 +14,7 @@ export class UserController {
   async updateOne(
     @ReqUser('id') id: string,
     @Body() body: UpdateUserDto,
-  ): Promise<UpdateResult> {
+  ): Promise<UpdateUserResponse> {
     return await this.userService.updateOne(id, body);
   }
 }

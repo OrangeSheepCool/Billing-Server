@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 
-import { EXCEPTION_MSG } from '@/constants';
+import { EXCEPTION_MSG, RESPONSE_MSG } from '@/constants';
 import { CreateUserDto, UpdateUserDto } from '@/dto';
 import { User } from '@/entities';
 
@@ -37,9 +37,12 @@ export class UserService {
   async updateOne(
     id: string,
     updateUserDto: UpdateUserDto,
-  ): Promise<UpdateResult> {
+  ): Promise<UpdateUserResponse> {
     await this.checkOne(updateUserDto, id);
+    await this.userRepository.update(id, updateUserDto);
 
-    return await this.userRepository.update(id, updateUserDto);
+    return {
+      message: RESPONSE_MSG.UPDATE_SUCCESS,
+    };
   }
 }
