@@ -2,11 +2,10 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { encode } from 'js-base64';
-import { omit, pick } from 'lodash';
 import { Repository } from 'typeorm';
 
 import { EXCEPTION_MSG, RESPONSE_MSG } from '@/constants';
-import { CreateAuthDto, CreateUserDto, UpdateAuthDto } from '@/dto';
+import { CreateAuthDto, UpdateAuthDto } from '@/dto';
 import { Auth, User } from '@/entities';
 import { AuthIdentifier } from '@/enums';
 import { determineIdentityEnum, determineIdentityName } from '@/utils';
@@ -70,21 +69,11 @@ export class AuthService {
     };
   }
 
-  async signUp(
-    payload: CreateAuthDto & CreateUserDto,
-  ): Promise<SignUpResponse> {
-    const authFields = ['identity', 'credential'] as const;
-    const createUserDto = omit(payload, authFields);
-    const createAuthDto = pick(payload, authFields);
-
-    await Promise.all([
-      this.userService.checkOne(createUserDto),
-      this.checkOne(createAuthDto),
-    ]);
+  async signUp(createAuthDto: CreateAuthDto): Promise<SignUpResponse> {
+    await this.checkOne(createAuthDto);
 
     const user: User = await this.userService.saveOne({
-      username: createUserDto.username || createAuthDto.identity,
-      avatar: createUserDto.avatar,
+      username: createAuthDto.identity,
     });
     await this.saveOne(createAuthDto, user);
 
